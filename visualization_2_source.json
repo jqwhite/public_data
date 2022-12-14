@@ -1,0 +1,1979 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "data": [
+    {
+      "name": "selector001_store",
+      "values": [
+        {
+          "unit": "concat_0_concat_0",
+          "fields": [{"type": "E", "field": "Layer"}],
+          "values": ["County"]
+        }
+      ]
+    },
+    {"name": "selector002_store"},
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/jqwhite/public_data/main/visualization_2_layers.json",
+      "format": {"type": "json"}
+    },
+    {
+      "name": "source_1",
+      "url": "https://raw.githubusercontent.com/jqwhite/public_data/main/visualization_2_vendors.json",
+      "format": {"type": "json"}
+    },
+    {
+      "name": "source_2",
+      "url": "https://raw.githubusercontent.com/jqwhite/public_data/main/visualization_2_geocatalog.json",
+      "format": {"type": "json"}
+    },
+    {
+      "name": "source_3",
+      "url": "https://raw.githubusercontent.com/jqwhite/public_data/main/visualization_2_geocounties.json",
+      "format": {"type": "json"}
+    },
+    {
+      "name": "data_0",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        }
+      ]
+    },
+    {
+      "name": "data_1",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum"],
+          "fields": ["Expenditures"],
+          "as": ["total_amt"]
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum"],
+          "fields": ["Expenditures"],
+          "as": ["total_amt"]
+        },
+        {
+          "type": "geojson",
+          "geojson": "geo",
+          "signal": "concat_0_concat_1_concat_0_concat_0_concat_1_layer_1_geojson_0"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_3",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum", "mean", "mean"],
+          "fields": ["Expenditures", "Latitude", "Longitude"],
+          "as": ["total_amt", "avg_lat", "avg_lon"]
+        },
+        {
+          "type": "filter",
+          "expr": "(((datum.avg_lat < 43) && (datum.avg_lon > -84)) && (datum.avg_lat > 42))"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_4",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum", "mean", "mean"],
+          "fields": ["Expenditures", "Latitude", "Longitude"],
+          "as": ["total_amt", "avg_lat", "avg_lon"]
+        },
+        {
+          "type": "filter",
+          "expr": "(((datum.avg_lat < 43) && (datum.avg_lon > -84)) && (datum.avg_lat > 42))"
+        },
+        {"type": "filter", "expr": "(datum.Layer === 'County')"},
+        {
+          "type": "geojson",
+          "geojson": "geo",
+          "signal": "concat_0_concat_1_concat_0_concat_1_concat_1_layer_0_geojson_0"
+        }
+      ]
+    },
+    {
+      "name": "data_5",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum", "mean", "mean"],
+          "fields": ["Expenditures", "Latitude", "Longitude"],
+          "as": ["total_amt", "avg_lat", "avg_lon"]
+        },
+        {
+          "type": "filter",
+          "expr": "(((datum.avg_lat < 43) && (datum.avg_lon > -84)) && (datum.avg_lat > 42))"
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "geojson",
+          "geojson": "geo",
+          "signal": "concat_0_concat_1_concat_0_concat_1_concat_1_layer_1_geojson_0"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_6",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum"],
+          "fields": ["Expenditures"],
+          "as": ["total_amt"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))"
+        },
+        {
+          "type": "window",
+          "params": [null],
+          "as": ["rank"],
+          "ops": ["rank"],
+          "fields": ["total_amt:Q"],
+          "sort": {"field": ["total_amt"], "order": ["descending"]}
+        },
+        {"type": "filter", "expr": "(datum.rank <= 20)"}
+      ]
+    },
+    {
+      "name": "data_7",
+      "source": "data_6",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": ["Name"],
+          "field": "total_amt",
+          "sort": {"field": ["total_amt"], "order": ["ascending"]},
+          "as": ["total_amt_start", "total_amt_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_8",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum"],
+          "fields": ["Expenditures"],
+          "as": ["total_amt"]
+        },
+        {
+          "type": "window",
+          "params": [null],
+          "as": ["rank"],
+          "ops": ["rank"],
+          "fields": ["total_amt:Q"],
+          "sort": {"field": ["total_amt"], "order": ["descending"]}
+        }
+      ]
+    },
+    {
+      "name": "data_9",
+      "source": "data_8",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_10",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum"],
+          "fields": ["Expenditures"],
+          "as": ["total_amt"]
+        },
+        {
+          "type": "window",
+          "params": [null],
+          "as": ["rank"],
+          "ops": ["rank"],
+          "fields": ["total_amt:Q"],
+          "sort": {"field": ["total_amt"], "order": ["descending"]}
+        }
+      ]
+    },
+    {
+      "name": "data_11",
+      "source": "data_10",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_12",
+      "source": "source_1",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "source_2",
+          "key": "geo_id",
+          "fields": ["geo_id"],
+          "as": ["geo"]
+        },
+        {
+          "type": "filter",
+          "expr": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))"
+        },
+        {
+          "type": "aggregate",
+          "groupby": ["Layer", "Name", "Info", "geo"],
+          "ops": ["sum"],
+          "fields": ["Expenditures"],
+          "as": ["total_amt"]
+        },
+        {
+          "type": "window",
+          "params": [null],
+          "as": ["rank"],
+          "ops": ["rank"],
+          "fields": ["total_amt:Q"],
+          "sort": {"field": ["total_amt"], "order": ["descending"]}
+        }
+      ]
+    },
+    {
+      "name": "data_13",
+      "source": "data_12",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"total_amt\"]) && isFinite(+datum[\"total_amt\"])"
+        }
+      ]
+    }
+  ],
+  "projections": [
+    {
+      "name": "concat_0_concat_1_concat_0_concat_0_projection",
+      "size": {
+        "signal": "[concat_0_concat_1_concat_0_concat_0_concat_1_width, concat_0_concat_1_concat_0_childHeight]"
+      },
+      "fit": {
+        "signal": "[data('source_3'), concat_0_concat_1_concat_0_concat_0_concat_1_layer_1_geojson_0]"
+      }
+    },
+    {
+      "name": "concat_0_concat_1_concat_0_concat_1_projection",
+      "size": {
+        "signal": "[concat_0_concat_1_concat_0_concat_1_concat_1_width, concat_0_concat_1_concat_0_childHeight]"
+      },
+      "fit": {
+        "signal": "[concat_0_concat_1_concat_0_concat_1_concat_1_layer_0_geojson_0, concat_0_concat_1_concat_0_concat_1_concat_1_layer_1_geojson_0]"
+      }
+    }
+  ],
+  "signals": [
+    {"name": "concat_0_childWidth", "value": 20},
+    {"name": "concat_0_concat_0_y_step", "value": 20},
+    {
+      "name": "concat_0_concat_0_height",
+      "update": "bandspace(domain('concat_0_concat_0_y').length, 1, 0.5) * concat_0_concat_0_y_step"
+    },
+    {"name": "concat_0_concat_1_concat_0_childHeight", "value": 600},
+    {"name": "concat_0_concat_1_concat_0_concat_0_concat_0_width", "value": 20},
+    {
+      "name": "concat_0_concat_1_concat_0_concat_0_concat_1_width",
+      "value": 620
+    },
+    {"name": "concat_0_concat_1_concat_0_concat_1_concat_0_width", "value": 20},
+    {
+      "name": "concat_0_concat_1_concat_0_concat_1_concat_1_width",
+      "value": 600
+    },
+    {"name": "concat_0_concat_1_concat_1_concat_0_width", "value": 20},
+    {"name": "concat_0_concat_1_concat_1_concat_0_height", "value": 20},
+    {"name": "concat_0_concat_1_concat_1_concat_1_width", "value": 600},
+    {"name": "concat_0_concat_1_concat_1_concat_1_y_step", "value": 20},
+    {
+      "name": "concat_0_concat_1_concat_1_concat_1_height",
+      "update": "bandspace(domain('concat_0_concat_1_concat_1_concat_1_y').length, 0.1, 0.05) * concat_0_concat_1_concat_1_concat_1_y_step"
+    },
+    {"name": "concat_1_childWidth", "value": 20},
+    {"name": "concat_1_concat_0_y_step", "value": 20},
+    {
+      "name": "concat_1_concat_0_height",
+      "update": "bandspace(domain('concat_1_concat_0_y').length, 1, 0.5) * concat_1_concat_0_y_step"
+    },
+    {"name": "concat_1_concat_1_y_step", "value": 20},
+    {
+      "name": "concat_1_concat_1_height",
+      "update": "bandspace(domain('concat_1_concat_1_y').length, 1, 0.5) * concat_1_concat_1_y_step"
+    },
+    {"name": "concat_1_concat_2_y_step", "value": 20},
+    {
+      "name": "concat_1_concat_2_height",
+      "update": "bandspace(domain('concat_1_concat_2_y').length, 1, 0.5) * concat_1_concat_2_y_step"
+    },
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "selector001",
+      "update": "vlSelectionResolve(\"selector001_store\", \"union\")"
+    },
+    {
+      "name": "selector002",
+      "update": "vlSelectionResolve(\"selector002_store\", \"union\", true)"
+    }
+  ],
+  "layout": {"padding": 20, "bounds": "full", "align": "each"},
+  "marks": [
+    {
+      "type": "group",
+      "name": "concat_0_group",
+      "layout": {"padding": 20, "bounds": "full", "align": "each"},
+      "marks": [
+        {
+          "type": "group",
+          "name": "concat_0_concat_0_group",
+          "style": "cell",
+          "encode": {
+            "update": {
+              "width": {"signal": "concat_0_childWidth"},
+              "height": {"signal": "concat_0_concat_0_height"}
+            }
+          },
+          "signals": [
+            {"name": "width", "update": "concat_0_childWidth"},
+            {
+              "name": "selector001_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_0\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple_fields",
+              "value": [{"type": "E", "field": "Layer"}]
+            },
+            {
+              "name": "selector001_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector001_tuple"},
+                  "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                }
+              ]
+            }
+          ],
+          "marks": [
+            {
+              "name": "concat_0_concat_0_marks",
+              "type": "symbol",
+              "style": ["square"],
+              "interactive": true,
+              "from": {"data": "source_0"},
+              "encode": {
+                "update": {
+                  "opacity": {"value": 0.7},
+                  "size": {"value": 200},
+                  "fill": [
+                    {
+                      "test": "!(length(data(\"selector001_store\"))) || (vlSelectionTest(\"selector001_store\", datum))",
+                      "value": "blue"
+                    },
+                    {"value": "lightgrey"}
+                  ],
+                  "ariaRoleDescription": {"value": "square"},
+                  "description": {
+                    "signal": "\"Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"])"
+                  },
+                  "x": {"signal": "concat_0_childWidth", "mult": 0.5},
+                  "y": {"scale": "concat_0_concat_0_y", "field": "Layer"},
+                  "shape": {"value": "square"}
+                }
+              }
+            }
+          ],
+          "axes": [
+            {
+              "scale": "concat_0_concat_0_y",
+              "orient": "left",
+              "grid": false,
+              "title": "Layer",
+              "domain": false,
+              "ticks": false,
+              "titleAnchor": "start",
+              "titleFontSize": 12,
+              "titleX": -10,
+              "titleY": -10,
+              "titleAngle": 0,
+              "zindex": 0
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "name": "concat_0_concat_1_group",
+          "layout": {
+            "padding": 20,
+            "columns": 1,
+            "bounds": "full",
+            "align": "each",
+            "center": true
+          },
+          "marks": [
+            {
+              "type": "group",
+              "name": "concat_0_concat_1_concat_0_group",
+              "layout": {
+                "padding": 20,
+                "columns": 1,
+                "bounds": "full",
+                "align": "each"
+              },
+              "marks": [
+                {
+                  "type": "group",
+                  "name": "concat_0_concat_1_concat_0_concat_0_group",
+                  "layout": {"padding": 20, "bounds": "full", "align": "each"},
+                  "marks": [
+                    {
+                      "type": "group",
+                      "name": "concat_0_concat_1_concat_0_concat_0_concat_0_group",
+                      "style": "cell",
+                      "encode": {
+                        "update": {
+                          "width": {
+                            "signal": "concat_0_concat_1_concat_0_concat_0_concat_0_width"
+                          },
+                          "height": {
+                            "signal": "concat_0_concat_1_concat_0_childHeight"
+                          }
+                        }
+                      },
+                      "signals": [
+                        {
+                          "name": "selector002_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_0_concat_0\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_tuple_fields",
+                          "value": [
+                            {"type": "E", "field": "Name"},
+                            {"type": "E", "field": "total_amt"}
+                          ]
+                        },
+                        {
+                          "name": "selector002_toggle",
+                          "value": false,
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "event.shiftKey"
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "false"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector002_tuple"},
+                              "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_0_concat_0\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple_fields",
+                          "value": [{"type": "E", "field": "Layer"}]
+                        },
+                        {
+                          "name": "selector001_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector001_tuple"},
+                              "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                            }
+                          ]
+                        }
+                      ],
+                      "marks": [
+                        {
+                          "name": "concat_0_concat_1_concat_0_concat_0_concat_0_marks",
+                          "type": "rect",
+                          "style": ["tick"],
+                          "interactive": true,
+                          "from": {"data": "data_1"},
+                          "encode": {
+                            "update": {
+                              "opacity": [
+                                {
+                                  "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                                  "value": 0.6
+                                },
+                                {"value": 0.15}
+                              ],
+                              "fill": [
+                                {
+                                  "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                                  "scale": "color",
+                                  "field": "total_amt"
+                                },
+                                {"value": "lightgrey"}
+                              ],
+                              "ariaRoleDescription": {"value": "tick"},
+                              "description": {
+                                "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"\")) + \"; Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"])"
+                              },
+                              "xc": {
+                                "scale": "concat_0_concat_1_concat_0_concat_0_concat_0_x",
+                                "field": "Layer"
+                              },
+                              "yc": {
+                                "scale": "concat_0_concat_1_concat_0_concat_0_concat_0_y",
+                                "field": "total_amt"
+                              },
+                              "width": {"value": 15},
+                              "height": {"value": 10}
+                            }
+                          }
+                        }
+                      ],
+                      "axes": [
+                        {
+                          "scale": "concat_0_concat_1_concat_0_concat_0_concat_0_x",
+                          "orient": "top",
+                          "grid": false,
+                          "domain": false,
+                          "labelAngle": 0,
+                          "labels": false,
+                          "ticks": false,
+                          "labelBaseline": "bottom",
+                          "zindex": 0
+                        },
+                        {
+                          "scale": "concat_0_concat_1_concat_0_concat_0_concat_0_y",
+                          "orient": "left",
+                          "grid": false,
+                          "title": "Expenditures",
+                          "format": "$.3~s",
+                          "titleAnchor": "start",
+                          "titleFontSize": 12,
+                          "titleX": -30,
+                          "titleY": -10,
+                          "labelOverlap": "greedy",
+                          "titleAngle": 0,
+                          "zindex": 0
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "name": "concat_0_concat_1_concat_0_concat_0_concat_1_group",
+                      "title": {
+                        "text": "Expenditures by Geographic Region",
+                        "frame": "group"
+                      },
+                      "style": "cell",
+                      "encode": {
+                        "update": {
+                          "width": {
+                            "signal": "concat_0_concat_1_concat_0_concat_0_concat_1_width"
+                          },
+                          "height": {
+                            "signal": "concat_0_concat_1_concat_0_childHeight"
+                          }
+                        }
+                      },
+                      "signals": [
+                        {
+                          "name": "selector002_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_0_concat_1_layer_1\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_tuple_fields",
+                          "value": [
+                            {"type": "E", "field": "Name"},
+                            {"type": "E", "field": "total_amt"}
+                          ]
+                        },
+                        {
+                          "name": "selector002_toggle",
+                          "value": false,
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "event.shiftKey"
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "false"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector002_tuple"},
+                              "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_0_concat_1_layer_1\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple_fields",
+                          "value": [{"type": "E", "field": "Layer"}]
+                        },
+                        {
+                          "name": "selector001_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector001_tuple"},
+                              "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                            }
+                          ]
+                        }
+                      ],
+                      "marks": [
+                        {
+                          "name": "concat_0_concat_1_concat_0_concat_0_concat_1_layer_0_marks",
+                          "type": "shape",
+                          "style": ["geoshape"],
+                          "interactive": true,
+                          "from": {"data": "source_3"},
+                          "encode": {
+                            "update": {
+                              "fillOpacity": {"value": 0.2},
+                              "stroke": {"value": "grey"},
+                              "strokeWidth": {"value": 0.25},
+                              "strokeOpacity": {"value": 0.1},
+                              "fill": {"value": "lightgrey"},
+                              "ariaRoleDescription": {"value": "geoshape"}
+                            }
+                          },
+                          "transform": [
+                            {
+                              "type": "geoshape",
+                              "projection": "concat_0_concat_1_concat_0_concat_0_projection"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "concat_0_concat_1_concat_0_concat_0_concat_1_layer_1_marks",
+                          "type": "shape",
+                          "style": ["geoshape"],
+                          "interactive": true,
+                          "from": {"data": "data_2"},
+                          "encode": {
+                            "update": {
+                              "stroke": {"value": "black"},
+                              "strokeWidth": {"value": 0.25},
+                              "strokeOpacity": {"value": 0.5},
+                              "fill": [
+                                {
+                                  "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                                  "scale": "color",
+                                  "field": "total_amt"
+                                },
+                                {"value": "lightgrey"}
+                              ],
+                              "tooltip": {
+                                "signal": "{\"Layer\": isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"], \"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Info\": isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"], \"Total\": format(datum[\"total_amt\"], \"$.3~s\")}"
+                              },
+                              "ariaRoleDescription": {"value": "geoshape"},
+                              "description": {
+                                "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"$.3~s\")) + \"; geo: \" + (isValid(datum[\"geo\"]) ? datum[\"geo\"] : \"\"+datum[\"geo\"]) + \"; Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"]) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Info: \" + (isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"]) + \"; Total: \" + (format(datum[\"total_amt\"], \"$.3~s\"))"
+                              }
+                            }
+                          },
+                          "transform": [
+                            {
+                              "type": "geoshape",
+                              "projection": "concat_0_concat_1_concat_0_concat_0_projection",
+                              "field": "datum[\"geo\"]"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "name": "concat_0_concat_1_concat_0_concat_1_group",
+                  "layout": {"padding": 20, "bounds": "full", "align": "each"},
+                  "marks": [
+                    {
+                      "type": "group",
+                      "name": "concat_0_concat_1_concat_0_concat_1_concat_0_group",
+                      "style": "cell",
+                      "encode": {
+                        "update": {
+                          "width": {
+                            "signal": "concat_0_concat_1_concat_0_concat_1_concat_0_width"
+                          },
+                          "height": {
+                            "signal": "concat_0_concat_1_concat_0_childHeight"
+                          }
+                        }
+                      },
+                      "signals": [
+                        {
+                          "name": "selector002_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_1_concat_0\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_tuple_fields",
+                          "value": [
+                            {"type": "E", "field": "Name"},
+                            {"type": "E", "field": "total_amt"}
+                          ]
+                        },
+                        {
+                          "name": "selector002_toggle",
+                          "value": false,
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "event.shiftKey"
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "false"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector002_tuple"},
+                              "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_1_concat_0\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple_fields",
+                          "value": [{"type": "E", "field": "Layer"}]
+                        },
+                        {
+                          "name": "selector001_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector001_tuple"},
+                              "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                            }
+                          ]
+                        }
+                      ],
+                      "marks": [
+                        {
+                          "name": "concat_0_concat_1_concat_0_concat_1_concat_0_marks",
+                          "type": "rect",
+                          "style": ["tick"],
+                          "interactive": true,
+                          "from": {"data": "data_3"},
+                          "encode": {
+                            "update": {
+                              "opacity": [
+                                {
+                                  "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                                  "value": 0.6
+                                },
+                                {"value": 0.15}
+                              ],
+                              "fill": [
+                                {
+                                  "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                                  "scale": "color",
+                                  "field": "total_amt"
+                                },
+                                {"value": "lightgrey"}
+                              ],
+                              "ariaRoleDescription": {"value": "tick"},
+                              "description": {
+                                "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"\")) + \"; Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"])"
+                              },
+                              "xc": {
+                                "scale": "concat_0_concat_1_concat_0_concat_1_concat_0_x",
+                                "field": "Layer"
+                              },
+                              "yc": {
+                                "scale": "concat_0_concat_1_concat_0_concat_1_concat_0_y",
+                                "field": "total_amt"
+                              },
+                              "width": {"value": 15},
+                              "height": {"value": 10}
+                            }
+                          }
+                        }
+                      ],
+                      "axes": [
+                        {
+                          "scale": "concat_0_concat_1_concat_0_concat_1_concat_0_x",
+                          "orient": "top",
+                          "grid": false,
+                          "domain": false,
+                          "labelAngle": 0,
+                          "labels": false,
+                          "ticks": false,
+                          "labelBaseline": "bottom",
+                          "zindex": 0
+                        },
+                        {
+                          "scale": "concat_0_concat_1_concat_0_concat_1_concat_0_y",
+                          "orient": "left",
+                          "grid": false,
+                          "title": "Expenditures",
+                          "format": "$.3~s",
+                          "titleAnchor": "start",
+                          "titleFontSize": 12,
+                          "titleX": -30,
+                          "titleY": -10,
+                          "labelOverlap": "greedy",
+                          "titleAngle": 0,
+                          "zindex": 0
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "name": "concat_0_concat_1_concat_0_concat_1_concat_1_group",
+                      "title": {
+                        "text": "Expenditures by Geographic Region in Southwest Michigan",
+                        "frame": "group"
+                      },
+                      "style": "cell",
+                      "encode": {
+                        "update": {
+                          "width": {
+                            "signal": "concat_0_concat_1_concat_0_concat_1_concat_1_width"
+                          },
+                          "height": {
+                            "signal": "concat_0_concat_1_concat_0_childHeight"
+                          }
+                        }
+                      },
+                      "signals": [
+                        {
+                          "name": "selector002_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_1_concat_1_layer_1\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_tuple_fields",
+                          "value": [
+                            {"type": "E", "field": "Name"},
+                            {"type": "E", "field": "total_amt"}
+                          ]
+                        },
+                        {
+                          "name": "selector002_toggle",
+                          "value": false,
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "event.shiftKey"
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "false"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector002_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector002_tuple"},
+                              "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple",
+                          "on": [
+                            {
+                              "events": [{"source": "scope", "type": "click"}],
+                              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_0_concat_1_concat_1_layer_1\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                              "force": true
+                            },
+                            {
+                              "events": [
+                                {"source": "scope", "type": "dblclick"}
+                              ],
+                              "update": "null"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "selector001_tuple_fields",
+                          "value": [{"type": "E", "field": "Layer"}]
+                        },
+                        {
+                          "name": "selector001_modify",
+                          "on": [
+                            {
+                              "events": {"signal": "selector001_tuple"},
+                              "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                            }
+                          ]
+                        }
+                      ],
+                      "marks": [
+                        {
+                          "name": "concat_0_concat_1_concat_0_concat_1_concat_1_layer_0_marks",
+                          "type": "shape",
+                          "clip": true,
+                          "style": ["geoshape"],
+                          "interactive": true,
+                          "from": {"data": "data_4"},
+                          "encode": {
+                            "update": {
+                              "fill": {"value": "white"},
+                              "fillOpacity": {"value": 0.1},
+                              "stroke": {"value": "black"},
+                              "strokeWidth": {"value": 1},
+                              "strokeOpacity": {"value": 0.25},
+                              "tooltip": {
+                                "signal": "{\"Layer\": isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"], \"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Info\": isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"], \"Total\": format(datum[\"total_amt\"], \"$.3~s\")}"
+                              },
+                              "ariaRoleDescription": {"value": "geoshape"},
+                              "description": {
+                                "signal": "\"geo: \" + (isValid(datum[\"geo\"]) ? datum[\"geo\"] : \"\"+datum[\"geo\"]) + \"; Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"]) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Info: \" + (isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"]) + \"; Total: \" + (format(datum[\"total_amt\"], \"$.3~s\"))"
+                              }
+                            }
+                          },
+                          "transform": [
+                            {
+                              "type": "geoshape",
+                              "projection": "concat_0_concat_1_concat_0_concat_1_projection",
+                              "field": "datum[\"geo\"]"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "concat_0_concat_1_concat_0_concat_1_concat_1_layer_1_marks",
+                          "type": "shape",
+                          "clip": true,
+                          "style": ["geoshape"],
+                          "interactive": true,
+                          "from": {"data": "data_5"},
+                          "encode": {
+                            "update": {
+                              "stroke": {"value": "black"},
+                              "strokeWidth": {"value": 0.5},
+                              "strokeOpacity": {"value": 0.5},
+                              "fill": [
+                                {
+                                  "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                                  "scale": "color",
+                                  "field": "total_amt"
+                                },
+                                {"value": "lightgrey"}
+                              ],
+                              "tooltip": {
+                                "signal": "{\"Layer\": isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"], \"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Info\": isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"], \"Total\": format(datum[\"total_amt\"], \"$.3~s\")}"
+                              },
+                              "ariaRoleDescription": {"value": "geoshape"},
+                              "description": {
+                                "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"$.3~s\")) + \"; geo: \" + (isValid(datum[\"geo\"]) ? datum[\"geo\"] : \"\"+datum[\"geo\"]) + \"; Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"]) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Info: \" + (isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"]) + \"; Total: \" + (format(datum[\"total_amt\"], \"$.3~s\"))"
+                              }
+                            }
+                          },
+                          "transform": [
+                            {
+                              "type": "geoshape",
+                              "projection": "concat_0_concat_1_concat_0_concat_1_projection",
+                              "field": "datum[\"geo\"]"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "name": "concat_0_concat_1_concat_1_group",
+              "layout": {
+                "padding": 4,
+                "columns": 1,
+                "bounds": "full",
+                "align": "each",
+                "center": true
+              },
+              "marks": [
+                {
+                  "type": "group",
+                  "name": "concat_0_concat_1_concat_1_concat_0_group",
+                  "style": "cell",
+                  "encode": {
+                    "update": {
+                      "width": {
+                        "signal": "concat_0_concat_1_concat_1_concat_0_width"
+                      },
+                      "height": {
+                        "signal": "concat_0_concat_1_concat_1_concat_0_height"
+                      }
+                    }
+                  },
+                  "signals": [
+                    {
+                      "name": "selector001_tuple",
+                      "on": [
+                        {
+                          "events": [{"source": "scope", "type": "click"}],
+                          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_1_concat_0\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                          "force": true
+                        },
+                        {
+                          "events": [{"source": "scope", "type": "dblclick"}],
+                          "update": "null"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "selector001_tuple_fields",
+                      "value": [{"type": "E", "field": "Layer"}]
+                    },
+                    {
+                      "name": "selector001_modify",
+                      "on": [
+                        {
+                          "events": {"signal": "selector001_tuple"},
+                          "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                        }
+                      ]
+                    }
+                  ],
+                  "marks": [
+                    {
+                      "name": "concat_0_concat_1_concat_1_concat_0_marks",
+                      "type": "text",
+                      "style": ["text"],
+                      "interactive": true,
+                      "from": {"data": "data_0"},
+                      "encode": {
+                        "update": {
+                          "align": {"value": "center"},
+                          "fontSize": {"value": 14},
+                          "fontStyle": {"value": "bold"},
+                          "fill": {"value": "black"},
+                          "description": {
+                            "signal": "\"Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"])"
+                          },
+                          "x": {
+                            "signal": "concat_0_concat_1_concat_1_concat_0_width",
+                            "mult": 0.5
+                          },
+                          "y": {
+                            "signal": "concat_0_concat_1_concat_1_concat_0_height",
+                            "mult": 0.5
+                          },
+                          "text": {
+                            "signal": "isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"]"
+                          },
+                          "baseline": {"value": "middle"}
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "name": "concat_0_concat_1_concat_1_concat_1_group",
+                  "style": "cell",
+                  "encode": {
+                    "update": {
+                      "width": {
+                        "signal": "concat_0_concat_1_concat_1_concat_1_width"
+                      },
+                      "height": {
+                        "signal": "concat_0_concat_1_concat_1_concat_1_height"
+                      }
+                    }
+                  },
+                  "signals": [
+                    {
+                      "name": "selector002_tuple",
+                      "on": [
+                        {
+                          "events": [{"source": "scope", "type": "click"}],
+                          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_1_concat_1\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                          "force": true
+                        },
+                        {
+                          "events": [{"source": "scope", "type": "dblclick"}],
+                          "update": "null"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "selector002_tuple_fields",
+                      "value": [
+                        {"type": "E", "field": "Name"},
+                        {"type": "E", "field": "total_amt"}
+                      ]
+                    },
+                    {
+                      "name": "selector002_toggle",
+                      "value": false,
+                      "on": [
+                        {
+                          "events": [{"source": "scope", "type": "click"}],
+                          "update": "event.shiftKey"
+                        },
+                        {
+                          "events": [{"source": "scope", "type": "dblclick"}],
+                          "update": "false"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "selector002_modify",
+                      "on": [
+                        {
+                          "events": {"signal": "selector002_tuple"},
+                          "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "selector001_tuple",
+                      "on": [
+                        {
+                          "events": [{"source": "scope", "type": "click"}],
+                          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_0_concat_1_concat_1_concat_1\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                          "force": true
+                        },
+                        {
+                          "events": [{"source": "scope", "type": "dblclick"}],
+                          "update": "null"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "selector001_tuple_fields",
+                      "value": [{"type": "E", "field": "Layer"}]
+                    },
+                    {
+                      "name": "selector001_modify",
+                      "on": [
+                        {
+                          "events": {"signal": "selector001_tuple"},
+                          "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                        }
+                      ]
+                    }
+                  ],
+                  "marks": [
+                    {
+                      "name": "concat_0_concat_1_concat_1_concat_1_marks",
+                      "type": "rect",
+                      "style": ["bar"],
+                      "interactive": true,
+                      "from": {"data": "data_7"},
+                      "encode": {
+                        "update": {
+                          "strokeOpacity": {"value": 0.4},
+                          "fill": [
+                            {
+                              "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                              "scale": "color",
+                              "field": "total_amt"
+                            },
+                            {"value": "lightgrey"}
+                          ],
+                          "tooltip": {
+                            "signal": "{\"Layer\": isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"], \"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Info\": isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"], \"Total\": format(datum[\"total_amt\"], \"$.3~s\")}"
+                          },
+                          "ariaRoleDescription": {"value": "bar"},
+                          "description": {
+                            "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"\")) + \"; Layer: \" + (isValid(datum[\"Layer\"]) ? datum[\"Layer\"] : \"\"+datum[\"Layer\"]) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Info: \" + (isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"]) + \"; Total: \" + (format(datum[\"total_amt\"], \"$.3~s\"))"
+                          },
+                          "x": {
+                            "scale": "concat_0_concat_1_concat_1_concat_1_x",
+                            "field": "total_amt_end"
+                          },
+                          "x2": {
+                            "scale": "concat_0_concat_1_concat_1_concat_1_x",
+                            "field": "total_amt_start"
+                          },
+                          "y": {
+                            "scale": "concat_0_concat_1_concat_1_concat_1_y",
+                            "field": "Name"
+                          },
+                          "height": {
+                            "scale": "concat_0_concat_1_concat_1_concat_1_y",
+                            "band": 1
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "axes": [
+                    {
+                      "scale": "concat_0_concat_1_concat_1_concat_1_x",
+                      "orient": "top",
+                      "grid": false,
+                      "title": "Total Expenditures →",
+                      "format": "$.3~s",
+                      "labelOverlap": true,
+                      "offset": 6,
+                      "titleAnchor": "start",
+                      "titleFontSize": 12,
+                      "titlePadding": 10,
+                      "labelFlush": true,
+                      "tickCount": {
+                        "signal": "ceil(concat_0_concat_1_concat_1_concat_1_width/40)"
+                      },
+                      "zindex": 0
+                    },
+                    {
+                      "scale": "concat_0_concat_1_concat_1_concat_1_y",
+                      "orient": "left",
+                      "grid": false,
+                      "offset": 6,
+                      "zindex": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "concat_1_group",
+      "layout": {"padding": 20, "bounds": "full", "align": "each"},
+      "marks": [
+        {
+          "type": "group",
+          "name": "concat_1_concat_0_group",
+          "style": "cell",
+          "encode": {
+            "update": {
+              "width": {"signal": "concat_1_childWidth"},
+              "height": {"signal": "concat_1_concat_0_height"}
+            }
+          },
+          "signals": [
+            {
+              "name": "selector002_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_1_concat_0\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector002_tuple_fields",
+              "value": [
+                {"type": "E", "field": "Name"},
+                {"type": "E", "field": "total_amt"}
+              ]
+            },
+            {
+              "name": "selector002_toggle",
+              "value": false,
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "event.shiftKey"
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "false"
+                }
+              ]
+            },
+            {
+              "name": "selector002_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector002_tuple"},
+                  "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_1_concat_0\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple_fields",
+              "value": [{"type": "E", "field": "Layer"}]
+            },
+            {
+              "name": "selector001_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector001_tuple"},
+                  "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                }
+              ]
+            }
+          ],
+          "marks": [
+            {
+              "name": "concat_1_concat_0_marks",
+              "type": "text",
+              "style": ["text"],
+              "interactive": true,
+              "from": {"data": "data_9"},
+              "encode": {
+                "update": {
+                  "align": {"value": "right"},
+                  "fontStyle": {"value": "bold"},
+                  "fill": [
+                    {
+                      "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                      "scale": "color",
+                      "field": "total_amt"
+                    },
+                    {"value": "lightgrey"}
+                  ],
+                  "description": {
+                    "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"$.3~s\")) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"])"
+                  },
+                  "x": {"signal": "concat_1_childWidth", "mult": 0.5},
+                  "y": {"scale": "concat_1_concat_0_y", "field": "Name"},
+                  "text": {"signal": "format(datum[\"total_amt\"], \"$.3~s\")"},
+                  "baseline": {"value": "middle"}
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "name": "concat_1_concat_1_group",
+          "style": "cell",
+          "encode": {
+            "update": {
+              "width": {"signal": "concat_1_childWidth"},
+              "height": {"signal": "concat_1_concat_1_height"}
+            }
+          },
+          "signals": [
+            {
+              "name": "selector002_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_1_concat_1\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector002_tuple_fields",
+              "value": [
+                {"type": "E", "field": "Name"},
+                {"type": "E", "field": "total_amt"}
+              ]
+            },
+            {
+              "name": "selector002_toggle",
+              "value": false,
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "event.shiftKey"
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "false"
+                }
+              ]
+            },
+            {
+              "name": "selector002_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector002_tuple"},
+                  "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_1_concat_1\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple_fields",
+              "value": [{"type": "E", "field": "Layer"}]
+            },
+            {
+              "name": "selector001_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector001_tuple"},
+                  "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                }
+              ]
+            }
+          ],
+          "marks": [
+            {
+              "name": "concat_1_concat_1_marks",
+              "type": "text",
+              "style": ["text"],
+              "interactive": true,
+              "from": {"data": "data_11"},
+              "encode": {
+                "update": {
+                  "align": {"value": "left"},
+                  "fontStyle": {"value": "bold"},
+                  "fill": [
+                    {
+                      "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                      "scale": "color",
+                      "field": "total_amt"
+                    },
+                    {"value": "lightgrey"}
+                  ],
+                  "description": {
+                    "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"$.3~s\")) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"])"
+                  },
+                  "x": {"signal": "concat_1_childWidth", "mult": 0.5},
+                  "y": {"scale": "concat_1_concat_1_y", "field": "Name"},
+                  "text": {
+                    "signal": "isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]"
+                  },
+                  "baseline": {"value": "middle"}
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "name": "concat_1_concat_2_group",
+          "style": "cell",
+          "encode": {
+            "update": {
+              "width": {"signal": "concat_1_childWidth"},
+              "height": {"signal": "concat_1_concat_2_height"}
+            }
+          },
+          "signals": [
+            {
+              "name": "selector002_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_1_concat_2\", fields: selector002_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Name\"], (item().isVoronoi ? datum.datum : datum)[\"total_amt\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector002_tuple_fields",
+              "value": [
+                {"type": "E", "field": "Name"},
+                {"type": "E", "field": "total_amt"}
+              ]
+            },
+            {
+              "name": "selector002_toggle",
+              "value": false,
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "event.shiftKey"
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "false"
+                }
+              ]
+            },
+            {
+              "name": "selector002_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector002_tuple"},
+                  "update": "modify(\"selector002_store\", selector002_toggle ? null : selector002_tuple, selector002_toggle ? null : true, selector002_toggle ? selector002_tuple : null)"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple",
+              "on": [
+                {
+                  "events": [{"source": "scope", "type": "click"}],
+                  "update": "datum && item().mark.marktype !== 'group' ? {unit: \"concat_1_concat_2\", fields: selector001_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Layer\"]]} : null",
+                  "force": true
+                },
+                {
+                  "events": [{"source": "scope", "type": "dblclick"}],
+                  "update": "null"
+                }
+              ]
+            },
+            {
+              "name": "selector001_tuple_fields",
+              "value": [{"type": "E", "field": "Layer"}]
+            },
+            {
+              "name": "selector001_modify",
+              "on": [
+                {
+                  "events": {"signal": "selector001_tuple"},
+                  "update": "modify(\"selector001_store\", selector001_tuple, true)"
+                }
+              ]
+            }
+          ],
+          "marks": [
+            {
+              "name": "concat_1_concat_2_marks",
+              "type": "text",
+              "style": ["text"],
+              "interactive": true,
+              "from": {"data": "data_13"},
+              "encode": {
+                "update": {
+                  "align": {"value": "left"},
+                  "dx": {"value": -50},
+                  "fontStyle": {"value": "bold"},
+                  "fill": [
+                    {
+                      "test": "!(length(data(\"selector002_store\"))) || (vlSelectionTest(\"selector002_store\", datum))",
+                      "scale": "color",
+                      "field": "total_amt"
+                    },
+                    {"value": "lightgrey"}
+                  ],
+                  "description": {
+                    "signal": "\"total_amt: \" + (format(datum[\"total_amt\"], \"$.3~s\")) + \"; Info: \" + (isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"]) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"])"
+                  },
+                  "x": {"signal": "concat_1_childWidth", "mult": 0.5},
+                  "y": {"scale": "concat_1_concat_2_y", "field": "Name"},
+                  "text": {
+                    "signal": "isValid(datum[\"Info\"]) ? datum[\"Info\"] : \"\"+datum[\"Info\"]"
+                  },
+                  "baseline": {"value": "middle"}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "log",
+      "domain": {
+        "fields": [
+          {"data": "data_1", "field": "total_amt"},
+          {"data": "data_2", "field": "total_amt"},
+          {"data": "data_3", "field": "total_amt"},
+          {"data": "data_5", "field": "total_amt"},
+          {"data": "data_7", "field": "total_amt"},
+          {"data": "data_9", "field": "total_amt"},
+          {"data": "data_11", "field": "total_amt"},
+          {"data": "data_13", "field": "total_amt"}
+        ]
+      },
+      "range": {"scheme": "viridis"},
+      "reverse": true,
+      "interpolate": "hcl"
+    },
+    {
+      "name": "concat_0_concat_0_y",
+      "type": "point",
+      "domain": {"data": "source_0", "field": "Layer", "sort": true},
+      "range": {"step": {"signal": "concat_0_concat_0_y_step"}},
+      "padding": 0.5
+    },
+    {
+      "name": "concat_0_concat_1_concat_0_concat_0_concat_0_x",
+      "type": "point",
+      "domain": {"data": "data_1", "field": "Layer", "sort": true},
+      "range": [
+        0,
+        {"signal": "concat_0_concat_1_concat_0_concat_0_concat_0_width"}
+      ],
+      "padding": 0.5
+    },
+    {
+      "name": "concat_0_concat_1_concat_0_concat_0_concat_0_y",
+      "type": "log",
+      "domain": {"data": "data_1", "field": "total_amt"},
+      "range": [{"signal": "concat_0_concat_1_concat_0_childHeight"}, 0],
+      "nice": true
+    },
+    {
+      "name": "concat_0_concat_1_concat_0_concat_1_concat_0_x",
+      "type": "point",
+      "domain": {"data": "data_3", "field": "Layer", "sort": true},
+      "range": [
+        0,
+        {"signal": "concat_0_concat_1_concat_0_concat_1_concat_0_width"}
+      ],
+      "padding": 0.5
+    },
+    {
+      "name": "concat_0_concat_1_concat_0_concat_1_concat_0_y",
+      "type": "log",
+      "domain": {"data": "data_3", "field": "total_amt"},
+      "range": [{"signal": "concat_0_concat_1_concat_0_childHeight"}, 0],
+      "nice": true
+    },
+    {
+      "name": "concat_0_concat_1_concat_1_concat_1_x",
+      "type": "linear",
+      "domain": {
+        "data": "data_7",
+        "fields": ["total_amt_start", "total_amt_end"]
+      },
+      "range": [0, {"signal": "concat_0_concat_1_concat_1_concat_1_width"}],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "concat_0_concat_1_concat_1_concat_1_y",
+      "type": "band",
+      "domain": {
+        "data": "data_6",
+        "field": "Name",
+        "sort": {"op": "min", "field": "total_amt", "order": "descending"}
+      },
+      "range": {
+        "step": {"signal": "concat_0_concat_1_concat_1_concat_1_y_step"}
+      },
+      "reverse": false,
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "concat_1_concat_0_y",
+      "type": "point",
+      "domain": {
+        "data": "data_8",
+        "field": "Name",
+        "sort": {"op": "min", "field": "total_amt", "order": "descending"}
+      },
+      "range": {"step": {"signal": "concat_1_concat_0_y_step"}},
+      "padding": 0.5
+    },
+    {
+      "name": "concat_1_concat_1_y",
+      "type": "point",
+      "domain": {
+        "data": "data_10",
+        "field": "Name",
+        "sort": {"op": "min", "field": "total_amt", "order": "descending"}
+      },
+      "range": {"step": {"signal": "concat_1_concat_1_y_step"}},
+      "padding": 0.5
+    },
+    {
+      "name": "concat_1_concat_2_y",
+      "type": "point",
+      "domain": {
+        "data": "data_12",
+        "field": "Name",
+        "sort": {"op": "min", "field": "total_amt", "order": "descending"}
+      },
+      "range": {"step": {"signal": "concat_1_concat_2_y_step"}},
+      "padding": 0.5
+    }
+  ],
+  "config": {"style": {"cell": {"opacity": 0}}}
+}
